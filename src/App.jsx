@@ -16,27 +16,37 @@ const App = () => {
 	const [currentPage, setCurrentPage] = useState(1)
 
 	useEffect(() => {
-		console.log(requirementFilter)
-		let jobs = []
+		// console.log(requirementFilter)
+		// let jobs = []
 
-		data.forEach((job) => {
-			if (requirementFilter.length > 0) {
-				if ([...job.languages, job.role, job.level].some((requirement) => requirementFilter.includes(requirement)) == false) {
-					return
-				}
-			}
+		// data.forEach((job) => {
+			
 
-			if (requirementFilter.length < 1) {
-				jobs.push(job)
-			} else {
-				if (job.featured == true) {
-					jobs.unshift(job)
-				} else {
-					jobs.push(job)
-				}
-			}
-		})
+		// 	if (requirementFilter.length > 0) {
+				
+		// 		if ([...job.languages, job.role, job.level].some((requirement) => requirementFilter.includes(requirement)) == false) {
+		// 			return
+		// 		}
+		// 	}
 
+		// 	if (requirementFilter.length < 1) {
+		// 		jobs.push(job)
+		// 	} else {
+		// 		if (job.featured == true) {
+		// 			jobs.unshift(job)
+		// 		} else {
+		// 			jobs.push(job)
+		// 		}
+		// 	}
+		// })
+		
+		//lambda function
+		const jobs = data.filter(job => 
+			requirementFilter.every(
+				(filter) => job.role === filter || job.level === filter || job.languages.includes(filter)
+			)
+		);
+	
 		setJobs(jobs)
 		setShowedJobs(jobs.slice(currentPage * itemPerPage - itemPerPage, currentPage * itemPerPage))
 	}, [requirementFilter, itemPerPage, currentPage])
